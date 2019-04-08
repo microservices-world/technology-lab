@@ -79,4 +79,19 @@ public class UserController {
                 .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @GetMapping("/age/{start}/{end}")
+    public Flux<User> findByAge(@PathVariable int start, @PathVariable int end) {
+        return userRepository.findByAgeBetween(start, end);
+    }
+
+    @GetMapping(value = "/stream/age/{start}/{end}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<User> streamFindByAge(@PathVariable int start, @PathVariable int end) {
+        return userRepository.findByAgeBetween(start, end);
+    }
+
+    @GetMapping(value = "/stream/old", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<User> getOldUsers() {
+        return userRepository.oldUsers();
+    }
 }
