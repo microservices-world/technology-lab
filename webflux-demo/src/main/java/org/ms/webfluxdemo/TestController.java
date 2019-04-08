@@ -3,6 +3,7 @@ package org.ms.webfluxdemo;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -33,7 +34,7 @@ public class TestController {
     }
 
 
-    @GetMapping(value = "/3", produces = "text/event-stream")
+    @GetMapping(value = "/3", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> get3() {
         log.info("get3 start");
         var result = Flux.fromStream(IntStream.range(1, 5).mapToObj(i -> {
