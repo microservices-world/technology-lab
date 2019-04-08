@@ -33,7 +33,7 @@ public class TestController {
     }
 
 
-    @GetMapping("/3")
+    @GetMapping(value = "/3", produces = "text/event-stream")
     public Flux<String> get3() {
         log.info("get3 start");
         var result = Flux.fromStream(IntStream.range(1, 5).mapToObj(i -> {
