@@ -1,9 +1,11 @@
 package org.ms.webfluxdemo;
 
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -30,6 +32,21 @@ public class TestController {
         return result;
     }
 
+
+    @GetMapping("/3")
+    public Flux<String> get3() {
+        log.info("get3 start");
+        var result = Flux.fromStream(IntStream.range(1, 5).mapToObj(i -> {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "flux data--" + i;
+        }));
+        log.info("get3 end");
+        return result;
+    }
 
     private String longRunTask() {
         try {
