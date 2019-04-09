@@ -1,5 +1,6 @@
 package org.ms.webfluxdemo.controller;
 
+import javax.validation.Valid;
 import org.ms.webfluxdemo.domain.User;
 import org.ms.webfluxdemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public Mono<User> createUser(@RequestBody User user) {
+    public Mono<User> createUser(@Valid @RequestBody User user) {
         user.setId(null);
         return userRepository.save(user);
     }
@@ -62,7 +63,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<User>> updateUser(@PathVariable String id, @RequestBody User user) {
+    public Mono<ResponseEntity<User>> updateUser(@PathVariable String id, @Valid @RequestBody User user) {
         return userRepository.findById(id)
                 .flatMap(u -> {
                     u.setAge(user.getAge());
