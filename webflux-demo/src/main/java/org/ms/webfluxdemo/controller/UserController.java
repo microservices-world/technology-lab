@@ -1,6 +1,9 @@
 package org.ms.webfluxdemo.controller;
 
 import javax.validation.Valid;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.ms.webfluxdemo.domain.User;
 import org.ms.webfluxdemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +50,7 @@ public class UserController {
 
     @PostMapping("/")
     public Mono<User> createUser(@Valid @RequestBody User user) {
+        user.setName(StringEscapeUtils.escapeHtml4(user.getName()));
         user.setId(null);
         return userRepository.save(user);
     }
